@@ -20,6 +20,6 @@ class Inner(bubble.Bubble):
 
 bubble.bootstrap(True)
 outer = Outer()
-print outer.try_square(3)
+print(outer.try_square(3))
 outer.kill()
 bubble.shutdown()

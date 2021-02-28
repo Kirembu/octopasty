@@ -1,4 +1,5 @@
 README
+setup.cfg
 setup.py
 octopasty/__init__.py
 octopasty/ami.py

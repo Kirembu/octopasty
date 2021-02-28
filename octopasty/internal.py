@@ -29,8 +29,8 @@ import random
 from gevent import socket
 import struct
 
-import ami
-import bubble
+from octopasty import ami
+from octopasty import bubble
 
 # From Manager_Action name to Manager_Action subclass.
 manager_actions = {}

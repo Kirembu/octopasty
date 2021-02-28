@@ -25,7 +25,7 @@ See the Octopasty manual.
 """
 
 __metaclass__ = type
-from cStringIO import StringIO
+from io import StringIO
 import codecs
 import datetime
 import gevent
@@ -120,7 +120,7 @@ class _Switching:
 
 def exposed(function):
     "Decorator for a Bubble method usable from another greenlet."
-    function.func_dict['exposed'] = True
+    function.__dict__['exposed'] = True
     return function
 
 
@@ -162,7 +162,7 @@ the function value, else return a gevent AsyncResult object, for which a
                 del Bubble._waiting_for[current]
         return async_result
 
-    wrapper.func_dict['exposed'] = True
+    wrapper.__dict__['exposed'] = True
     return wrapper
 
 
@@ -257,7 +257,7 @@ class MetaBubble(type):
         for key in defs:
             if not key.startswith(('_', 'do__')):
                 value = getattr(self, key)
-                func_dict = getattr(value, 'func_dict', None)
+                func_dict = getattr(value, '__dict__', None)
                 if not (func_dict is None or func_dict.get('exposed')):
                     setattr(self, key, closure(name, key, value))
 
@@ -779,7 +779,7 @@ class Input(Reactive_Bubble):
 class Output(Reactive_Bubble):
     "Write textual information."
 
-    accepted_types = str, unicode
+    accepted_types = str, bytes
     daemon = True
     count_reset = None
     count = None
@@ -1046,7 +1046,7 @@ Log entry made by FUNCTION, textual contents is FORMAT % ARGS.
 
 class Logger(Reactive_Bubble):
     "Copy log messages, filtering them by mask, and adding time stamps."
-    accepted_types = Log_Entry, str, unicode
+    accepted_types = Log_Entry, str, bytes
 
     # White margin for continuation lines.
     _margin = ' ' * 20  # "YYYY-MM-YY HH:MM:SS "
@@ -1089,7 +1089,7 @@ class Logger(Reactive_Bubble):
         width = self.width - len(stamp) if self.width else None
         try:
             text = format % args
-        except Exception, exception:
+        except Exception as exception:
             # We should not lose a Logger over a bad format or missing arg!
             text = '%s: (%r %% %r)' % (exception, format, args)
         for line in text.split('\n'):

@@ -104,7 +104,7 @@ def yaml_merge(filenames):
                 else:
                     raise ConfigError("Unknown section `%s'." % section)
         config.final_check()
-    except ConfigError, exception:
+    except Exception as exception:
         sys.exit('* ' + str(exception))
     return config
 

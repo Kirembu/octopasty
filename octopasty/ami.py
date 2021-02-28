@@ -31,12 +31,12 @@ import random
 from gevent import socket
 import time
 
-import bubble
+from octopasty import bubble
 
 # Web related modules.
-import Cookie
+from http import cookies as Cookie
 import json
-import urlparse
+from urllib.parse import urlparse
 from xml.sax import saxutils
 
 welcome_prefix = 'Asterisk Call Manager/'
@@ -260,7 +260,7 @@ class Client(bubble.Reactive_Bubble):
                             & set(self.user.privileges)):
                         raise Client.Error("Insufficient privileges.")
             return maker()
-        except Client.Error, exception:
+        except Client.Error as  exception:
             # Send AMI error with DIAGNOSTIC message.
             diagnostic = str(exception)
             bubble.log.user('%s', diagnostic)
@@ -997,8 +997,8 @@ class Writer(bubble.Output):
 
 
 def introspect():
-    import asterisk
-    import internal
+    from octopasty import asterisk
+    from octopasty import internal
     for key in set(asterisk.manager_actions) | set(internal.manager_actions):
         bases = []
         base = asterisk.manager_actions.get(key)

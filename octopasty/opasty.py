@@ -56,9 +56,9 @@ import os
 import pkg_resources
 import sys
 
-import ami
-import bubble
-import configure
+from octopasty import ami
+from octopasty import bubble
+from octopasty import configure
 # FIXME: Unnice mix of absolute and relative imports.
 from octopasty import __version__
 
